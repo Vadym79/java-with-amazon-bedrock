@@ -20,7 +20,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	private static final String AWS_LAMBDA_EMBEDDINGS = "AWS Lambda is a serverless compute service for running code without having to provision or manage servers. You pay only for the compute time you consume.";
 	private static final String AZURE_FUNCTIONS__EMBEDDINGS = "Azure Functions is a serverless solution that allows you to build robust apps while using less code, and with less infrastructure and lower costs.";
 
-	private final static String S3_BUCKET = "s3://vk-amazon-nova-mme/";
+	private final static String S3_BUCKET = "s3://vk-amazon-nova-2-mme/";
 
 	private final static String S3_EMBEDDINGS_DESTINATION_URI = S3_BUCKET + "embeddings-output/";
 
