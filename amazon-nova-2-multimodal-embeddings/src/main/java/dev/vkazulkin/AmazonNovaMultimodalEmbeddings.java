@@ -107,25 +107,25 @@ public class AmazonNovaMultimodalEmbeddings {
 	}
 
 	/**
-	 * Creates and saves text embeddings with the given text and key into the S3
+	 * Creates and stores text embeddings with the given text and key into the S3
 	 * Vector.
 	 * 
 	 * @param text - text
 	 * @param key  - key
 	 * @throws Exception
 	 */
-	private static void createAndSaveTextEmbeddings(String text, String key) throws Exception {
+	private static void createAndStoreTextEmbeddings(String text, String key) throws Exception {
 		Float[] embeddings = createTextEmbeddings(text, "GENERIC_INDEX");
 		putVectors(embeddings, key);
 	}
 
 	/**
-	 * Creates and saves image file embeddings into the S3 Vector. Image file name
+	 * Creates and stores image file embeddings into the S3 Vector. Image file name
 	 * without extension will be used as a key
 	 * 
 	 * @throws Exception
 	 */
-	private static void createAndSaveImageEmbeddings() throws Exception {
+	private static void createAndStoreImageEmbeddings() throws Exception {
 		for (String imageName : IMAGE_NAMES) {
 			String request = """
 					{
@@ -152,12 +152,12 @@ public class AmazonNovaMultimodalEmbeddings {
 	}
 
 	/**
-	 * Creates and saves audio file embeddings into the S3 Vector. Audio file name
+	 * Creates and stores audio file embeddings into the S3 Vector. Audio file name
 	 * without extension will be used as a key
 	 * 
 	 * @throws Exception
 	 */
-	private static void createAndSaveAudioEmbeddings() throws Exception {
+	private static void createAndStoreAudioEmbeddings() throws Exception {
 		for (String audioName : AUDIO_NAMES) {
 			invokeAsyncModelAndPutVectorsToS3(prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION), audioName,
 					"embedding-audio.jsonl");
@@ -165,12 +165,12 @@ public class AmazonNovaMultimodalEmbeddings {
 	}
 
 	/**
-	 * Creates and saves video file embeddings into the S3 Vector. Video file name
+	 * Creates and stores video file embeddings into the S3 Vector. Video file name
 	 * without extension will be used as a key
 	 * 
 	 * @throws Exception
 	 */
-	private static void createAndSaveVideoEmbeddings() throws Exception {
+	private static void createAndStoreVideoEmbeddings() throws Exception {
 		for (String videoName : VIDEO_NAMES) {
 			invokeAsyncModelAndPutVectorsToS3(prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION), videoName,
 					"embedding-audio-video.jsonl");
@@ -224,7 +224,7 @@ public class AmazonNovaMultimodalEmbeddings {
 					putVectors(asyncEmbeddingResponse.embedding(), fileName + "_" + i);
 					i++;
 				}
-				System.out.println("saved s3 vector for " + fileName);
+				System.out.println("store s3 vector for " + fileName);
 				return;
 			}
 		}
@@ -337,16 +337,16 @@ public class AmazonNovaMultimodalEmbeddings {
 	}
 
 	public static void main(String[] args) throws Exception {
-		 /*
+		 
 		 createS3VectorBucketAndIndex();
-		 createAndSaveTextEmbeddings(AWS_LAMBDA_EMBEDDINGS,"AWS Lambda Definition");
-		 createAndSaveImageEmbeddings();
-		 createAndSaveTextEmbeddings(AZURE_FUNCTIONS__EMBEDDINGS,"Azure Functions Definition");
-		 createAndSaveTextEmbeddings("Life is the most beautiful thing ever","Life  Definition");
-		 createAndSaveAudioEmbeddings();
-		 createAndSaveVideoEmbeddings();
+		 createAndStoreTextEmbeddings(AWS_LAMBDA_EMBEDDINGS,"AWS Lambda Definition");
+		 createAndStoreImageEmbeddings();
+		 createAndStoreTextEmbeddings(AZURE_FUNCTIONS__EMBEDDINGS,"Azure Functions Definition");
+		 createAndStoreTextEmbeddings("Life is the most beautiful thing ever","Life  Definition");
+		 createAndStoreAudioEmbeddings();
+		 createAndStoreVideoEmbeddings();
 		 search("Azure Functions", 5);
 		 search("AWS Lambda", 20);
-		 */
+		 
 	}
 }
