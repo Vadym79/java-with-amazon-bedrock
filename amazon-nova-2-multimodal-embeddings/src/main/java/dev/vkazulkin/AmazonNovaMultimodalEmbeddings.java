@@ -101,7 +101,7 @@ public class AmazonNovaMultimodalEmbeddings {
 				.replace("{{embeddingPurpose}}", "\"" + embeddingPurpose + "\"");
 
 		System.out.println(request);
-		var eResponse = invokeModel(request);
+		var eResponse = invokeBedrockModel(request);
 		System.out.println("embedding:" + eResponse.embeddings().getFirst().embedding());
 		return eResponse.embeddings().getFirst().embedding();
 	}
@@ -144,7 +144,7 @@ public class AmazonNovaMultimodalEmbeddings {
 					.replace("{{dimension}}", String.valueOf(EMBEDDING_DIMENSION));
 
 			System.out.println(request);
-			var eResponse = invokeModel(request);
+			var eResponse = invokeBedrockModel(request);
 			System.out.println("embedding: " + eResponse.embeddings().getFirst().embedding());
 
 			putVectors(eResponse.embeddings().getFirst().embedding(), imageName);
@@ -159,7 +159,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void createAndStoreAudioEmbeddings() throws Exception {
 		for (String audioName : AUDIO_NAMES) {
-			invokeAsyncModelAndPutVectorsToS3(prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION), audioName,
+			asyncInvokeBerockModelAndPutVectorsToS3(prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION), audioName,
 					"embedding-audio.jsonl");
 		}
 	}
@@ -172,7 +172,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void createAndStoreVideoEmbeddings() throws Exception {
 		for (String videoName : VIDEO_NAMES) {
-			invokeAsyncModelAndPutVectorsToS3(prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION), videoName,
+			asyncInvokeBerockModelAndPutVectorsToS3(prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION), videoName,
 					"embedding-audio-video.jsonl");
 		}
 	}
@@ -185,7 +185,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	 * @return response's body as EmbeddingResponse object
 	 * @throws Exception
 	 */
-	private static EmbeddingResponse invokeModel(String request) throws Exception {
+	private static EmbeddingResponse invokeBedrockModel(String request) throws Exception {
 		var imRequest = InvokeModelRequest.builder().modelId(MODEL_ID).body(SdkBytes.fromUtf8String(request))
 				.contentType("application/json").accept("application/json").build();
 		var imResponse = BEDRDOCK_RUNTIME_CLIENT.invokeModel(imRequest);
@@ -194,14 +194,14 @@ public class AmazonNovaMultimodalEmbeddings {
 	}
 
 	
-	/** invokes the model asynchronously and stores the embeddings in the s3 vectors
+	/** invokes the Amazon Bedrock Model asynchronously and stores the embeddings in the s3 vectors
 	 * 
 	 * @param document document to be used as the model input
 	 * @param fileName - file name which is used as a key prefix in the s3 vectors
 	 * @param embeddingsResultFileName - file name with the embedding results computed asynchronously
 	 * @throws Exception
 	 */
-	private static void invokeAsyncModelAndPutVectorsToS3(Document document, String fileName, String embeddingsResultFileName)
+	private static void asyncInvokeBerockModelAndPutVectorsToS3(Document document, String fileName, String embeddingsResultFileName)
 			throws Exception {
 		var invocationARN= startAsyncInvoke(document);
 		
