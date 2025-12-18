@@ -337,16 +337,22 @@ public class AmazonNovaMultimodalEmbeddings {
 	}
 
 	public static void main(String[] args) throws Exception {
-		 
+		/*
+		
 		 createS3VectorBucketAndIndex();
+		 
 		 createAndStoreTextEmbeddings(AWS_LAMBDA_EMBEDDINGS,"AWS Lambda Definition");
-		 createAndStoreImageEmbeddings();
 		 createAndStoreTextEmbeddings(AZURE_FUNCTIONS__EMBEDDINGS,"Azure Functions Definition");
 		 createAndStoreTextEmbeddings("Life is the most beautiful thing ever","Life  Definition");
+		 
+		 createAndStoreImageEmbeddings();
+		 
 		 createAndStoreAudioEmbeddings();
 		 createAndStoreVideoEmbeddings();
+		 
 		 search("Azure Functions", 5);
 		 search("AWS Lambda", 20);
 		 
+		 */
 	}
 }
