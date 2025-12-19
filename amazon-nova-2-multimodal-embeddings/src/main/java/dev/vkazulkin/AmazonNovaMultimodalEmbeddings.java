@@ -207,7 +207,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void asyncInvokeBerockModelAndPutVectorsToS3(Document document, String fileName, String embeddingsResultFileName)
 			throws Exception {
-		var invocationARN= startAsyncInvokeBerockModelInvoke(document);
+		var invocationARN= startAsyncInvokeBerockModel(document);
 		
 		while (true) {
 			var gaiRequest = GetAsyncInvokeRequest.builder().invocationArn(invocationARN).build();
@@ -239,7 +239,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	 * @param document - document to be used as the model input
 	 * @return invocation ARN
 	 */
-	private static String startAsyncInvokeBerockModelInvoke(Document document) {
+	private static String startAsyncInvokeBerockModel(Document document) {
 		System.out.println("doc: " + document);
 		var ais3dc = AsyncInvokeS3OutputDataConfig.builder().s3Uri(S3_EMBEDDINGS_DESTINATION_URI).build();
 		var aiodc = AsyncInvokeOutputDataConfig.builder().s3OutputDataConfig(ais3dc).build();
