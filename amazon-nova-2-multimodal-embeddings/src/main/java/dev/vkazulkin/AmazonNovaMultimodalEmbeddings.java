@@ -159,10 +159,8 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void createAndStoreAudioEmbeddings() throws Exception {
 		for (String audioName : AUDIO_NAMES) {
-			var d =prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION);
-			System.out.println(d);
-			//asyncInvokeBerockModelAndPutVectorsToS3(prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION), audioName,
-				//	"embedding-audio.jsonl");
+			asyncInvokeBerockModelAndPutVectorsToS3(prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION), audioName,
+				"embedding-audio.jsonl");
 		}
 	}
 
@@ -174,10 +172,8 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void createAndStoreVideoEmbeddings() throws Exception {
 		for (String videoName : VIDEO_NAMES) {
-			var d =prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION);
-			System.out.println(d);
-			//asyncInvokeBerockModelAndPutVectorsToS3(prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION), videoName,
-				//	"embedding-audio-video.jsonl");
+			asyncInvokeBerockModelAndPutVectorsToS3(prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION), videoName,
+				"embedding-audio-video.jsonl");
 		}
 	}
 
