@@ -159,8 +159,10 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void createAndStoreAudioEmbeddings() throws Exception {
 		for (String audioName : AUDIO_NAMES) {
-			asyncInvokeBerockModelAndPutVectorsToS3(prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION), audioName,
-					"embedding-audio.jsonl");
+			var d =prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION);
+			System.out.println(d);
+			//asyncInvokeBerockModelAndPutVectorsToS3(prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION), audioName,
+				//	"embedding-audio.jsonl");
 		}
 	}
 
@@ -172,8 +174,10 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void createAndStoreVideoEmbeddings() throws Exception {
 		for (String videoName : VIDEO_NAMES) {
-			asyncInvokeBerockModelAndPutVectorsToS3(prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION), videoName,
-					"embedding-audio-video.jsonl");
+			var d =prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION);
+			System.out.println(d);
+			//asyncInvokeBerockModelAndPutVectorsToS3(prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION), videoName,
+				//	"embedding-audio-video.jsonl");
 		}
 	}
 
@@ -203,7 +207,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void asyncInvokeBerockModelAndPutVectorsToS3(Document document, String fileName, String embeddingsResultFileName)
 			throws Exception {
-		var invocationARN= startAsyncInvoke(document);
+		var invocationARN= startAsyncInvokeBerockModelInvoke(document);
 		
 		while (true) {
 			var gaiRequest = GetAsyncInvokeRequest.builder().invocationArn(invocationARN).build();
@@ -230,12 +234,12 @@ public class AmazonNovaMultimodalEmbeddings {
 		}
 	}
 	
-	/** starts bedrock async invocation and returns it invocations ARN 
+	/** starts bedrock async invocation of the Bedrock Model and returns it invocations ARN 
 	 * 
 	 * @param document - document to be used as the model input
 	 * @return invocation ARN
 	 */
-	private static String startAsyncInvoke(Document document) {
+	private static String startAsyncInvokeBerockModelInvoke(Document document) {
 		System.out.println("doc: " + document);
 		var ais3dc = AsyncInvokeS3OutputDataConfig.builder().s3Uri(S3_EMBEDDINGS_DESTINATION_URI).build();
 		var aiodc = AsyncInvokeOutputDataConfig.builder().s3OutputDataConfig(ais3dc).build();
@@ -329,7 +333,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	private static void putVectors(Float[] embeddings, String key) {
 		var vd = VectorData.builder().float32(embeddings).build();
 		var piv = PutInputVector.builder().data(vd).key(key)
-				// .metadata();
+				 //.metadata();
 				.build();
 		var pvRequest = PutVectorsRequest.builder().vectorBucketName(VECTOR_BUCKET).indexName(INDEX_NAME).vectors(piv)
 				.build();
@@ -346,8 +350,9 @@ public class AmazonNovaMultimodalEmbeddings {
 		 createAndStoreTextEmbeddings("Life is the most beautiful thing ever","Life  Definition");
 		 
 		 createAndStoreImageEmbeddings();
-		 
+		 */
 		 createAndStoreAudioEmbeddings();
+		 /*
 		 createAndStoreVideoEmbeddings();
 		 
 		 search("Azure Functions", 5);
