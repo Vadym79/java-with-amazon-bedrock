@@ -346,9 +346,8 @@ public class AmazonNovaMultimodalEmbeddings {
 		 createAndStoreTextEmbeddings("Life is the most beautiful thing ever","Life  Definition");
 		 
 		 createAndStoreImageEmbeddings();
-		 */
+		 
 		 createAndStoreAudioEmbeddings();
-		 /*
 		 createAndStoreVideoEmbeddings();
 		 
 		 search("Azure Functions", 5);
