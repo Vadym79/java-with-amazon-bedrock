@@ -159,7 +159,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void createAndStoreAudioEmbeddings() throws Exception {
 		for (String audioName : AUDIO_NAMES) {
-			asyncInvokeBerockModelAndPutVectorsToS3(prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION), audioName,
+			asyncInvokeBedrockModelAndPutVectorsToS3(prepareAudioDocument(S3_BUCKET + audioName + AUDIO_EXTENSION), audioName,
 				"embedding-audio.jsonl");
 		}
 	}
@@ -172,7 +172,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	 */
 	private static void createAndStoreVideoEmbeddings() throws Exception {
 		for (String videoName : VIDEO_NAMES) {
-			asyncInvokeBerockModelAndPutVectorsToS3(prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION), videoName,
+			asyncInvokeBedrockModelAndPutVectorsToS3(prepareVideoDocument(S3_BUCKET + videoName + VIDEO_EXTENSION), videoName,
 				"embedding-audio-video.jsonl");
 		}
 	}
@@ -201,9 +201,9 @@ public class AmazonNovaMultimodalEmbeddings {
 	 * @param embeddingsResultFileName - file name with the embedding results computed asynchronously
 	 * @throws Exception
 	 */
-	private static void asyncInvokeBerockModelAndPutVectorsToS3(Document document, String fileName, String embeddingsResultFileName)
+	private static void asyncInvokeBedrockModelAndPutVectorsToS3(Document document, String fileName, String embeddingsResultFileName)
 			throws Exception {
-		var invocationARN= startAsyncInvokeBerockModel(document);
+		var invocationARN= startAsyncInvokeBedrockModel(document);
 		
 		while (true) {
 			var gaiRequest = GetAsyncInvokeRequest.builder().invocationArn(invocationARN).build();
@@ -235,7 +235,7 @@ public class AmazonNovaMultimodalEmbeddings {
 	 * @param document - document to be used as the model input
 	 * @return invocation ARN
 	 */
-	private static String startAsyncInvokeBerockModel(Document document) {
+	private static String startAsyncInvokeBedrockModel(Document document) {
 		System.out.println("doc: " + document);
 		var ais3dc = AsyncInvokeS3OutputDataConfig.builder().s3Uri(S3_EMBEDDINGS_DESTINATION_URI).build();
 		var aiodc = AsyncInvokeOutputDataConfig.builder().s3OutputDataConfig(ais3dc).build();
@@ -354,5 +354,7 @@ public class AmazonNovaMultimodalEmbeddings {
 		 search("AWS Lambda", 20);
 		 
 		 */
+		
+		search("AWS Lambda", 20);
 	}
 }
